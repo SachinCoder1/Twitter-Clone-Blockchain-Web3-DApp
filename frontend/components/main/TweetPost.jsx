@@ -1,5 +1,5 @@
 import React from "react";
-import { allPostIcons } from "../../data";
+import { allTweetIcons } from "../../data";
 import Button from "../../subcomponents/btns/Button";
 import SmImage from "../../subcomponents/img/SmImage";
 import Input from "../../subcomponents/inputs/Input";
@@ -13,15 +13,23 @@ export default function TweetPost({ onChange }) {
         isNFTImage={true}
       />
       <div className="flex flex-col w-full gap-y-5">
-        <Input
+        {/* <Input
           className="flex-1"
           placeholder="What's Happening"
           id="Hello"
           onChange={onChange}
-        />
+        /> */}
+        <textarea
+          className="flex-1 placeholder:text-lg px-2 mx-2 my-1 border-none outline-none h-auto"
+          name="tweet"
+          id="tweet"
+          cols="20"
+          rows="3"
+          placeholder="What's Happening"
+        ></textarea>
         <div className="flex w-full justify-between items-center border-t border-t-gray-200 py-2">
           <div className="flex gap-x-2">
-            {allPostIcons?.map((item, index) => (
+            {allTweetIcons?.map((item, index) => (
               <p key={index}>{item}</p>
             ))}
           </div>
