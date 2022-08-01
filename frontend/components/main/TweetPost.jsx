@@ -13,12 +13,6 @@ export default function TweetPost({ onChange }) {
         isNFTImage={true}
       />
       <div className="flex flex-col w-full gap-y-5">
-        {/* <Input
-          className="flex-1"
-          placeholder="What's Happening"
-          id="Hello"
-          onChange={onChange}
-        /> */}
         <textarea
           className="flex-1 placeholder:text-lg px-2 mx-2 my-1 border-none outline-none h-auto"
           name="tweet"

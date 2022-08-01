@@ -6,8 +6,8 @@ export default function Main() {
   return (
     <div>
         <TweetPost />
-        <div>
-            <Post />
+        <div className='overflow-y-auto'>
+            {/* <Post /> */}
         </div>
     </div>
   )

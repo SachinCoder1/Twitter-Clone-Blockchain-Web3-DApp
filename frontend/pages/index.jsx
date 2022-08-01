@@ -2,6 +2,7 @@
 import Head from "next/head";
 import Sidebar from "../components/sidebar/Sidebar";
 import Main from "../components/main/Main";
+import Widget from "../components/widgets/Widget";
 
 const Home = () => {
   return (
@@ -11,15 +12,15 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="md:flex md:w-9/12 justify-center">
+      <main className="md:flex w-4/5 justify-center">
         <div className="border-r border-gray-300 px-2">
           <Sidebar />
         </div>
-        <div className="flex-1 border-r border-gray-300 px-2">
+        <div className=" w-full border-r border-gray-300 px-2">
           <Main />
         </div>
         <div className="px-6">
-          <Sidebar />
+          <Widget />
         </div>
       </main>
     </div>
