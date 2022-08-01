@@ -16,7 +16,7 @@ contract MintNFT is ERC721, Ownable {
     using Counters for Counters.Counter;
     using Strings for uint256;
 
-    Counters.Counter = _tokenIds;
+    Counters.Counter = tokenIds;
 
     /* Mappings */
     mapping (uint256 => string) s_tokenURIs;
@@ -29,9 +29,7 @@ contract MintNFT is ERC721, Ownable {
     }
 
     /* constructor */
-     constructor() ERC721("Minting NFTs", "Mint"){
-        
-     }
+     constructor() ERC721("Minting NFTs", "Mint"){}
 
 
      /* Pure/Get Functions */
@@ -43,6 +41,22 @@ contract MintNFT is ERC721, Ownable {
 
         return s_tokenURIs[_tokenId];
      }
+     
+    //  Get all the tokens which exist
+     function getAllTokens()  returns (Token[] memory) {
+        uint256 currentId = tokenIds.current();
+        Token[] memory newTokens = new Token[](currentId);
+
+        for (uint i = 0; i <= currentId; i++) {
+            if(_exists(i)){
+                string memory uri = s_tokenURIs[i];
+                newTokens[i] = Token(i, uri, " ");
+
+            }
+        }
+
+        return newTokens;
+     }
 
     
 
@@ -51,6 +65,16 @@ contract MintNFT is ERC721, Ownable {
      function _setTokenURI(uint256 _tokenId, string memory _tokenURI){
          s_tokenURIs[_tokenId] = _tokenURI;
      }
+
+     function mintNFT(address _nftAddress, string memory _tokenURI) returns(uint256) {
+        uint256 currentId = tokenIds.current();
+        _mint(_nftAddress, tokenURI);
+        _setTokenURI(currentId, _tokenURI );
+        tokenIds.increment();
+        return currentId;
+
+     }
+     
 
 
 }
