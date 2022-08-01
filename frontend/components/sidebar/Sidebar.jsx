@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Button from "../../subcomponents/btns/Button";
 
 export default function Sidebar() {
-  // const [isActive, setIsActive] = useState(false);
   const router = useRouter();
   return (
     <div>
@@ -30,11 +29,10 @@ export default function Sidebar() {
       <div>
         <Button
           text="Tweet"
-          // icon={<AiOutlinePlus className="text-2xl" />}
-          className=""
+          className="rounded-full"
           // onClick={}
-          disabled={false} // If true it enables the loading.
-          fullWidth={true} // If true it automatically takes width.
+          disabled={false}
+          fullWidth={true}
         />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function BtnMain({
+export default function Button({
   text,
   onClick,
   className,
