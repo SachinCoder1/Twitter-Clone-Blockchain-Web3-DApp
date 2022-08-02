@@ -1,9 +1,12 @@
 import '../styles/globals.css'
-import {MainContext} from '../context/mainContext'
-import {useContext} from 'react'
+import {MainContextProvider} from '../context/MainContext'
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <MainContextProvider>
+      <Component {...pageProps} />
+    </MainContextProvider>
+  )
 }
 
 export default MyApp
