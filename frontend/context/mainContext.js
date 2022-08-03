@@ -1,6 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { urls } from "../constants";
+import {client} from "../sanity-client/client"
+
+const defaultProfileImg = "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=740&t=st=1659534767~exp=1659535367~hmac=524171c5543d6fa034d5d02fe05ae668748d4580eac8c77bdf21a0f439d9d276"
 
 export const MainContext = createContext("");
 
@@ -32,12 +35,13 @@ export const MainContextProvider = ({ children }) => {
       return;
     }
 
-    if (localStorage.getItem("isConnected") == "web3") {
+    // if (localStorage.getItem("isConnected") == "web3") {
       try {
         const allAddresses = await requestAccount();
         if (allAddresses.length) {
           setCurrentStatus(connected);
           setCurrentAccount(allAddresses[0]);
+          createUserAccount(allAddresses[0])
         } else {
           setCurrentStatus(notConnected);
           setCurrentAccount();
@@ -46,10 +50,11 @@ export const MainContextProvider = ({ children }) => {
         console.log("Error while connecting if wallet connected", err);
         setCurrentAccount("");
         setCurrentStatus(error);
-      }
-    } else {
-      setCurrentStatus(notConnected);
-    }
+      // }
+    } 
+    // else {
+    //   setCurrentStatus(notConnected);
+    // }
   };
 
   const connectWallet = async () => {
@@ -63,7 +68,7 @@ export const MainContextProvider = ({ children }) => {
       if (allAddresses.length) {
         setCurrentAccount(allAddresses[0]);
         setCurrentStatus(connected);
-        localStorage.setItem("isConnected", "web3");
+        // localStorage.setItem("isConnected", "web3");
       } else {
         router.push(urls.home);
         setCurrentAccount("");
@@ -74,6 +79,37 @@ export const MainContextProvider = ({ children }) => {
       setCurrentStatus(error);
     }
   };
+
+
+
+  // Creating an account in sanity
+  const createUserAccount = async (userWalletAddress=currentAccount) => {
+    if(!window.ethereum){
+      setCurrentStatus(noMetamask);
+      setCurrentAccount("");
+      return;
+    }
+
+    try {
+      const userDoc = {
+        _type: "users",
+        _id: userWalletAddress,
+        name: "Unnamed",
+        isProfileImageNft: false,
+        profileImage: defaultProfileImg,
+        walletAddress : userWalletAddress
+      }
+
+      await client.createIfNotExists(userDoc)
+      
+    } catch (err) {
+      console.log("Error while creating user account ", err);
+      
+    }
+
+
+  }
+
 
   useEffect(() => {
     isWalletConnected();

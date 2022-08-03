@@ -1,10 +1,10 @@
 {
   "root": true,
   "project": {
-    "name": "sanity"
+    "name": "twitter_web3"
   },
   "api": {
-    "projectId": "8h20tkpb",
+    "projectId": "mpvfbth3",
     "dataset": "production"
   },
   "plugins": [
