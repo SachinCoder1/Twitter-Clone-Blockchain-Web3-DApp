@@ -113,6 +113,18 @@ export const MainContextProvider = ({ children }) => {
   }
 
 
+  // Get Profile Image Url
+
+  const getProfileImageURI = async (imageURI, isNFT) => {
+    if(isNFT){
+      return `https://gateway.pinata.cloud/ipfs/${imageURI}`;
+
+    }else{
+      return imageURI;
+    }
+  }
+
+
 
 
   // Fetch All the tweets;
@@ -130,10 +142,10 @@ export const MainContextProvider = ({ children }) => {
     setAllTweets([])
 
     sanityResponse.forEach(async item => {
-      // const profileImageUrl = await getNftProfileImage(
-      //   item.author.profileImage,
-      //   item.author.isProfileImageNft,
-      // )
+      const profileImageUrl = await getProfileImageURI(
+        item.author.profileImage,
+        item.author.isProfileImageNft,
+      )
 
       if (item.author.isProfileImageNft) {
         const newItem = {
@@ -142,7 +154,7 @@ export const MainContextProvider = ({ children }) => {
           owner: {
             name: item.owner.name,
             walletAddress: item.owner.walletAddress,
-            profileImage: item.owner.profileImageUrl,
+            profileImage: profileImageUrl,
             isProfileImageNft: item.owner.isProfileImageNft,
           },
         }
@@ -174,15 +186,15 @@ export const MainContextProvider = ({ children }) => {
     `
     const response = await client.fetch(query)
 
-    // const profileImageUri = await getNftProfileImage(
-    //   response[0].profileImage,
-    //   response[0].isProfileImageNft,
-    // )
+    const profileImageUri = await getProfileImageURI(
+      response[0].profileImage,
+      response[0].isProfileImageNft,
+    )
 
     setCurrentUser({
       tweets: response[0].tweets,
       name: response[0].name,
-      profileImage: response[0].profileImage,
+      profileImage: profileImageUri,
       walletAddress: response[0].walletAddress,
       coverImage: response[0].coverImage,
       isProfileImageNft: response[0].isProfileImageNft,
@@ -203,7 +215,7 @@ export const MainContextProvider = ({ children }) => {
 
   return (
     <MainContext.Provider
-      value={{ currentAccount, currentStatus, connectWallet, fetchTweets, getCurrentUserDetails, allTweets, currentUser }}
+      value={{ currentAccount, currentStatus, setCurrentStatus, connectWallet, fetchTweets, getCurrentUserDetails, allTweets, currentUser }}
     >
       {children}
     </MainContext.Provider>

@@ -5,10 +5,29 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "../../subcomponents/btns/Button";
 import { MainContext } from "../../context/MainContext";
+import Modal from "react-modal";
+import MintProfileImage from "../minting/MintProfileImage";
+
+
+const customStyles = {
+  content: {
+    top: '30%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: '',
+    padding: 0,
+    border: 'none',
+  },
+  overlay: {
+    backgroundColor: '#334250a7',
+  },
+}
 
 export default function Sidebar() {
   const router = useRouter();
-  const {currentAccount, currentUser} = useContext(MainContext)
+  const { currentAccount, currentUser } = useContext(MainContext);
   return (
     <div>
       <Logo />
@@ -32,15 +51,24 @@ export default function Sidebar() {
         <Button
           text="Mint An Image"
           className="rounded-full"
-          onClick={() => router.push(`${router.pathname}/?mint=${currentAccount}`)}
+          onClick={() =>
+            router.push(`${router.pathname}/?mint=${currentAccount}`)
+          }
           disabled={false}
           fullWidth={true}
         />
       </div>
-      <div>
+      {/* <div>
        {currentUser.name}
        {currentAccount.slice(0,6)}...{currentAccount.slice(currentAccount.length-4)};
-      </div>
+      </div> */}
+      <Modal
+        isOpen={Boolean(router.query.mint)}
+        onRequestClose={() => router.back()}
+        style={customStyles}
+      >
+        <MintProfileImage />
+      </Modal>
     </div>
   );
 }
