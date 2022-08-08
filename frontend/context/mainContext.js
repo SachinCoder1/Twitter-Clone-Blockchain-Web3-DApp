@@ -20,7 +20,7 @@ export const MainContextProvider = ({ children }) => {
     possibleStatus;
 
   /* Use States */
-  const [currentStatus, setCurrentStatus] = useState(loading);
+  const [currentStatus, setCurrentStatus] = useState(notConnected);
   const [currentAccount, setCurrentAccount] = useState("");
   const [allTweets, setAllTweets] = useState([])
   const [currentUser, setCurrentUser] = useState({})
@@ -206,9 +206,9 @@ export const MainContextProvider = ({ children }) => {
   }
 
 
-  useEffect(() => {
-    isWalletConnected();
-  }, []);
+  // useEffect(() => {
+  //   isWalletConnected();
+  // }, []);
 
 
   useEffect(() => {

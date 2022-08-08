@@ -88,7 +88,7 @@ const MainLayout = ({title, children}) => {
     </>
   );
   return (
-    <div className="flex min-h-screen w-screen justify-center py-7 ">
+    <div className="flex min-h-screen overflow-x-hidden justify-center py-7 ">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
