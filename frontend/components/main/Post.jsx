@@ -11,6 +11,7 @@ export default function Post({
   timestamp,
   address,
 }) {
+  console.log(img)
   return (
     <div className="mb-5 border-b border-b-gray-200 py-2">
       <div className="flex items-start">
@@ -19,7 +20,7 @@ export default function Post({
           <div className="pt-1 px-4">
             <span className="font-bold">{name}</span>{" "}
             <span className="text-gray-500 ml-2 text-sm">
-              {address.slice(0, 6)}...{address.slice(address.length - 4)} •{" "}
+              {address && address.slice(0, 6)}...{address && address.slice(address.length - 4)} •{" "}
             </span>
             <span className="text-gray-500 text-sm">
               {format(new Date(timestamp).getTime())}

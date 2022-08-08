@@ -131,23 +131,24 @@ export const MainContextProvider = ({ children }) => {
   const fetchTweets = async () => {
     const query = `
       *[_type == "tweets"]{
-        "author": author->{name, walletAddress, profileImage, isProfileImageNft},
+        "owner": owner->{name, walletAddress, profileImage, isProfileImageNft},
         tweet,
         timestamp
       }|order(timestamp desc)
     `
 
    const sanityResponse = await client.fetch(query)
+   console.log(sanityResponse)
 
     setAllTweets([])
 
-    sanityResponse.forEach(async item => {
+    await sanityResponse?.forEach(async item => {
       const profileImageUrl = await getProfileImageURI(
-        item.author.profileImage,
-        item.author.isProfileImageNft,
+        item?.owner?.profileImage,
+        item?.owner?.isProfileImageNft,
       )
 
-      if (item.author.isProfileImageNft) {
+      if (item?.owner?.isProfileImageNft) {
         const newItem = {
           tweet: item.tweet,
           timestamp: item.timestamp,
@@ -160,8 +161,10 @@ export const MainContextProvider = ({ children }) => {
         }
 
         setAllTweets(prevState => [...prevState, newItem])
+        console.log(allTweets)
       } else {
         setAllTweets(prevState => [...prevState, item])
+        console.log(allTweets)
       }
     })
   }

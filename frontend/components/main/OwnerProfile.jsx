@@ -11,7 +11,7 @@ export default function OwnerProfile() {
       <div className="relative mb-5">
         <img
           className="w-full h-60"
-          src={currentUser.coverImage}
+          src={currentUser.coverImage ? currentUser.coverImage : "https://picsum.photos/seed/picsum/600/600"}
           alt="cover image"
         />
         <SmImage
