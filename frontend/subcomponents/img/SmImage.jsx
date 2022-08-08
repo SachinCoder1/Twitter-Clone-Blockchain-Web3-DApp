@@ -1,10 +1,10 @@
 import React from "react";
 import { GoVerified } from "react-icons/go";
-export default function SmImage({ src, alt, isNFTImage }) {
+export default function SmImage({ src, alt, isNFTImage, className, classNameImg}) {
   return (
-    <div className="relative h-[45px] w-[45px]">
+    <div className={`relative h-[45px] w-[45px] ${className}`}>
       <img
-        className="rounded-full h-[40px] w-[40px] object-cover"
+        className={`rounded-full h-[40px] w-[40px] object-cover ${classNameImg}`}
         src={src}
         alt={alt}
       />

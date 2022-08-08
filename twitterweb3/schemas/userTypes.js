@@ -20,8 +20,8 @@ export const userTypes = {
     },
     {
       name: "isProfileImageNft",
-      title: "Is Profile Image NFT",
       type: "boolean",
+      title: "is Profile Image Nft",
     },
     {
       name: "coverImage",

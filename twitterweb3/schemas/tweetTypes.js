@@ -1,7 +1,7 @@
 export const tweetTypes = {
   name: "tweets",
-  title: "Tweets",
   type: "document",
+  title: "Tweets",
   fields: [
     {
       name: "tweet",

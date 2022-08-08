@@ -22,6 +22,8 @@ export const MainContextProvider = ({ children }) => {
   /* Use States */
   const [currentStatus, setCurrentStatus] = useState(loading);
   const [currentAccount, setCurrentAccount] = useState("");
+  const [allTweets, setAllTweets] = useState([])
+  const [currentUser, setCurrentUser] = useState({})
 
   const requestAccount = async () => {
     return await window.ethereum.request({
@@ -111,13 +113,97 @@ export const MainContextProvider = ({ children }) => {
   }
 
 
+
+
+  // Fetch All the tweets;
+  const fetchTweets = async () => {
+    const query = `
+      *[_type == "tweets"]{
+        "author": author->{name, walletAddress, profileImage, isProfileImageNft},
+        tweet,
+        timestamp
+      }|order(timestamp desc)
+    `
+
+   const sanityResponse = await client.fetch(query)
+
+    setAllTweets([])
+
+    sanityResponse.forEach(async item => {
+      // const profileImageUrl = await getNftProfileImage(
+      //   item.author.profileImage,
+      //   item.author.isProfileImageNft,
+      // )
+
+      if (item.author.isProfileImageNft) {
+        const newItem = {
+          tweet: item.tweet,
+          timestamp: item.timestamp,
+          owner: {
+            name: item.owner.name,
+            walletAddress: item.owner.walletAddress,
+            profileImage: item.owner.profileImageUrl,
+            isProfileImageNft: item.owner.isProfileImageNft,
+          },
+        }
+
+        setAllTweets(prevState => [...prevState, newItem])
+      } else {
+        setAllTweets(prevState => [...prevState, item])
+      }
+    })
+  }
+
+
+
+  // CurrentAccount tweets;
+  const getCurrentUserDetails = async (userAccount = currentAccount) => {
+    if (currentStatus !== 'connected') {
+      return;
+    }
+    // setCurrentStatus(loading)
+    const query = `
+      *[_type == "users" && _id == "${userAccount}"]{
+        "tweets": tweets[]->{timestamp, tweet}|order(timestamp desc),
+        name,
+        profileImage,
+        isProfileImageNft,
+        coverImage,
+        walletAddress
+      }
+    `
+    const response = await client.fetch(query)
+
+    // const profileImageUri = await getNftProfileImage(
+    //   response[0].profileImage,
+    //   response[0].isProfileImageNft,
+    // )
+
+    setCurrentUser({
+      tweets: response[0].tweets,
+      name: response[0].name,
+      profileImage: response[0].profileImage,
+      walletAddress: response[0].walletAddress,
+      coverImage: response[0].coverImage,
+      isProfileImageNft: response[0].isProfileImageNft,
+    })
+
+  }
+
+
   useEffect(() => {
     isWalletConnected();
   }, []);
 
+
+  useEffect(() => {
+    if(!currentAccount || currentStatus != "connected") return
+    getCurrentUserDetails(currentAccount);
+  }, [currentAccount, currentStatus]);
+
   return (
     <MainContext.Provider
-      value={{ currentAccount, currentStatus, connectWallet }}
+      value={{ currentAccount, currentStatus, connectWallet, fetchTweets, getCurrentUserDetails, allTweets, currentUser }}
     >
       {children}
     </MainContext.Provider>

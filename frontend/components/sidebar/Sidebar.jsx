@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { navData } from "../../data";
 import Logo from "../../subcomponents/Logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "../../subcomponents/btns/Button";
+import { MainContext } from "../../context/MainContext";
 
 export default function Sidebar() {
   const router = useRouter();
+  const {currentAccount, currentUser} = useContext(MainContext)
   return (
     <div>
       <Logo />
@@ -28,12 +30,16 @@ export default function Sidebar() {
       </div>
       <div>
         <Button
-          text="Tweet"
+          text="Mint An Image"
           className="rounded-full"
-          // onClick={}
+          onClick={() => router.push(`${router.pathname}/?mint=${currentAccount}`)}
           disabled={false}
           fullWidth={true}
         />
+      </div>
+      <div>
+       {currentUser.name}
+       {currentAccount.slice(0,6)}...{currentAccount.slice(currentAccount.length-4)};
       </div>
     </div>
   );

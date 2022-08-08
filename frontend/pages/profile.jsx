@@ -9,14 +9,15 @@ import Loading from "../subcomponents/loading/Loading";
 import { MainContext } from "../context/MainContext";
 import Link from 'next/link'
 import MainLayout from '../components/layouts/MainLayout'
+import OwnerProfile from "../components/main/OwnerProfile";
 
-const Home = () => {
+const Profile = () => {
 
   return (
    <MainLayout>
-     <Main />
+     <OwnerProfile />
    </MainLayout>
   );
 };
 
-export default Home;
+export default Profile;
